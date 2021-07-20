@@ -2,8 +2,7 @@
 import os
 from config import *
 if os.getenv("DEV") is not None:
-   from dotenv import load_dotenv
-    
+    from dotenv import load_dotenv
     load_dotenv(dotenv_path='./.env')
 
 import sys
