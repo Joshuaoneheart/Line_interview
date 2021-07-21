@@ -192,16 +192,13 @@ def handle_message(event):
                             action=MessageAction(label="Who is he?", text="Who is he?")
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="Tell more about his education", text="Tell more about his education")
+                            action=MessageAction(label="Education", text="Tell more about his education")
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="What skills does he have?", text="What skills does he have?")
+                            action=MessageAction(label="Skills", text="What skills does he have?")
                         ),
                         QuickReplyButton(     
-                            action=MessageAction(label="show me his photos", text="show me his photos")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="Who is he?", text="Who is he?")
+                            action=MessageAction(label="Photos", text="show me his photos")
                         )
                     ])
         )
