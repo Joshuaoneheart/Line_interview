@@ -203,7 +203,7 @@ def handle_message(event):
                         QuickReplyButton(
                             action=MessageAction(label="Who is he?", text="Who is he?")
                         )
-                    ]))
+                    ])
         )
 
     line_bot_api.reply_message(event.reply_token, ret_message)
