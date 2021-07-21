@@ -65,9 +65,9 @@ def handle_message(event):
     global STATE
     user = event.source.user_id
     print(user)
+    message = event.message.text
     if user not in STATE:
         STATE[user] = 0
-    message = event.message.text
     if message == "back":
         STATE[user] = 0
         ret_message = TextSendMessage(text="請問要提供您什麼服務呢")
@@ -184,7 +184,27 @@ def handle_message(event):
 
     else:
         STATE[user] = 0
-        ret_message = TextSendMessage(text='你好！！我是 Kompanion，您的智慧醫療小助手！請問我能夠幫您什麼呢？')
+        ret_message = TextSendMessage(
+                text='Still want to know more about Joshua You? No problem! It is my pleasure to introduce my best friend and I am always here for you.',
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=MessageAction(label="Who is he?", text="Who is he?")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="Tell more about his education", text="Tell more about his education")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="What skills does he have?", text="What skills does he have?")
+                        ),
+                        QuickReplyButton(     
+                            action=MessageAction(label="show me his photos", text="show me his photos")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="Who is he?", text="Who is he?")
+                        )
+                    ]))
+        )
 
     line_bot_api.reply_message(event.reply_token, ret_message)
 
