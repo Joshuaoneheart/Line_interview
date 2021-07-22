@@ -49,10 +49,6 @@
               "label": "Document",
               "uri": "https://devdocs.io/c/"
             }
-          },
-          {
-            "type": "spacer",
-            "size": "sm"
           }
         ],
         "flex": 0
@@ -106,10 +102,6 @@
               "label": "Document",
               "uri": "https://devdocs.io/cpp/"
             }
-          },
-          {
-            "type": "spacer",
-            "size": "sm"
           }
         ],
         "flex": 0
@@ -173,10 +165,6 @@
               "label": "Packages",
               "text": "Tell more about python packages."
             }
-          },
-          {
-            "type": "spacer",
-            "size": "sm"
           }
         ],
         "flex": 0
@@ -279,10 +267,6 @@
               "label": "CSS Document",
               "uri": "https://devdocs.io/css/"
             }
-          },
-          {
-            "type": "spacer",
-            "size": "sm"
           }
         ],
         "flex": 0
@@ -354,10 +338,6 @@
               "label": "Frameworks",
               "text": "Tell more about javascript frameworks"
             }
-          },
-          {
-            "type": "spacer",
-            "size": "sm"
           }
         ],
         "flex": 0
