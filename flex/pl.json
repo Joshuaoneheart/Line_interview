@@ -5,7 +5,7 @@
       "type": "bubble",
       "hero": {
         "type": "image",
-        "url": "https://docs.microsoft.com/zh-tw/media/logos/logo_C.svg",
+        "url": "https://imgur.com/accLDWz.png",
         "size": "xxl",
         "aspectRatio": "10:12",
         "aspectMode": "cover"
@@ -58,7 +58,7 @@
       "type": "bubble",
       "hero": {
         "type": "image",
-        "url": "https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg",
+        "url": "https://imgur.com/Nb3JRjB.png",
         "size": "xxl",
         "aspectRatio": "10:12",
         "aspectMode": "cover"
@@ -276,7 +276,7 @@
       "type": "bubble",
       "hero": {
         "type": "image",
-        "url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg",
+        "url": "https://imgur.com/n0azLGe.png",
         "size": "5xl",
         "aspectRatio": "20:17",
         "aspectMode": "cover",
