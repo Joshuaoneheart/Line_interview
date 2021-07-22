@@ -8,7 +8,6 @@ if os.getenv("DEV") is not None:
 import sys
 import json
 import time
-from hospital import *
 
 from flask import Flask, request, abort
 
@@ -68,9 +67,11 @@ def handle_message(event):
     message = event.message.text
     if user not in STATE:
         STATE[user] = 0
-    if message == "back":
+    if message == "What skills does he have?":
         STATE[user] = 0
-        ret_message = TextSendMessage(text="請問要提供您什麼服務呢")
+        test_flex = json.load(open("./flex/pl.json", "r"))
+        ret_message = FlexSendMessage(alt_text='Programming Language', contents=test_flex)
+        line_bot_api.reply_message(event.reply_token, ret_message)
     elif message == "初步診斷" and STATE[user] == 0:
         msg = "請簡述您的症狀"
         STATE[user] = 1
@@ -202,30 +203,5 @@ def handle_message(event):
                         )
                     ])
         )
+        line_bot_api.reply_message(event.reply_token, ret_message)
 
-    line_bot_api.reply_message(event.reply_token, ret_message)
-
-@handler.add(MessageEvent, message=LocationMessage)
-def handle_location_message(event):
-
-    global STATE
-    global DEPARTMENT
-    user = event.source.user_id
-    LATITUDE = event.message.latitude
-    LONGITUDE = event.message.longitude
-    if STATE[user] == 3:
-        pcr_name = get_nearby_PCR((LATITUDE, LONGITUDE))
-        msg = f"離您最近的採檢站為：\n{pcr_name}\n\n打開google map以查詢位置：\nhttps://www.google.com.tw/maps/search/{pcr_name}"
-        ret_message = TextSendMessage(text=msg)
-    elif STATE[user] == 2:
-        # get_hospital_by_department DEPARTMENT[user]
-        test_flex = json.load(open("./flex/hospital.json", "r"))
-        ret_message = FlexSendMessage(alt_text='hospital', contents=test_flex)
-    else:
-        ret_message = TextSendMessage(text=str(STATE[user]))
-    
-    STATE[user] = 0
-    line_bot_api.reply_message(event.reply_token, ret_message)
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
