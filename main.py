@@ -70,7 +70,7 @@ def callback():
 def handle_message(event):
     user = event.source.user_id
     session.permanent = True
-    print(user, message, session["STATE"], session, flush=True)
+    print(session["STATE"], session, flush=True)
     if 'STATE' not in session:
         session["STATE"] = {}
         session.modified = True
