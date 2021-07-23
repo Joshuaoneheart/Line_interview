@@ -96,8 +96,8 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
         data = query({"inputs": message}, MODEL_API_URL)
         print(data, flush=True)
-        line_bot_api.push_message(user, "Here is the result of sentence completion.")
-        line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].split(".")[0] + "."))
+        line_bot_api.push_message(user, TextSendMessage(text="Here is the result of sentence completion."))
+        line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].replace("\n", "")))
         STATE[user] = 0
         return
     time.sleep(0.3)
@@ -110,10 +110,10 @@ def handle_message(event):
         STATE[user] = 0
         test_flex = json.load(open("./flex/pl.json", "r"))
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='As a student in computer science, Joshua You is good at lots of fields such as machine learning, data analysis, web development and so on.'))
-        line_bot_api.push_message(user, TextSendMessage(text='I just show some programming language that is often used by him below.'))
+        line_bot_api.push_message(user, TextSendMessage(text='I just list few programming languages that is often used by him below.'))
         ret_message = FlexSendMessage(alt_text='Programming Language', contents=test_flex)
         line_bot_api.push_message(user, ret_message)
-        line_bot_api.push_message(user, TextSendMessage(text='I just list few here and there are many languages such matlab, R, Shell Script that Joshua You can use.'))
+        line_bot_api.push_message(user, TextSendMessage(text='There are many languages such as matlab, R, Shell Script that Joshua You can use.'))
     elif message == "Tell me more about python packages.":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Here I list some packages of python that Joshua You often use.'))
     elif message == "Tell me more about javascript frameworks.":
@@ -152,6 +152,7 @@ def handle_message(event):
     elif message == "Who are you?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
     elif message == "I want to chat with your bot.":
+        STATE[user] = 2
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="No problem. I have turned it on. Just start your conversion and say \"End Conversation\" when you want to end this conversation with the bot."))
     elif message == "What tools do you have?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
