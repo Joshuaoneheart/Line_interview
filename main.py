@@ -21,7 +21,8 @@ from linebot.exceptions import (
 from linebot.models import *
 
 app = Flask(__name__)
-app.secret_key = 'mr_bong'
+app.secret_key = os.urandom(16)
+app.config['SESSION_TYPE'] = 'filesystem'
 # getting channel secret
 #  This would be the preferred approach but it just doesn't work
 #  CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
