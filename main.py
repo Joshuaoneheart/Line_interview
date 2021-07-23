@@ -77,7 +77,7 @@ def handle_message(event):
     if user not in g.STATE:
         g.STATE[user] = 0
     message = event.message.text
-    print(user, message, g["STATE"], g, flush=True)
+    print(user, message, g.STATE, g, flush=True)
     if message == "What can you do?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I am willing to introduce my best friend Joshua You aka 游一心 to you. Besides, I can do some amazing tricks and you can check them in useful tools option.'))
     elif message == "Sentence Completion":
@@ -150,7 +150,7 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, ret_message)
     else:
-        if message == "End Conversation" and g["STATE"][user] == 2:
+        if message == "End Conversation" and g.STATE[user] == 2:
             g.STATE[user] = 0
             del g.Converse_state[user]
             return
