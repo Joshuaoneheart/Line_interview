@@ -23,7 +23,6 @@ from linebot.models import *
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
 app.config['SESSION_TYPE'] = 'filesystem'
-session.permanent = True
 # getting channel secret
 #  This would be the preferred approach but it just doesn't work
 #  CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
@@ -70,6 +69,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user = event.source.user_id
+    session.permanent = True
     print(user, message, session["STATE"], session, flush=True)
     if 'STATE' not in session:
         session["STATE"] = {}
