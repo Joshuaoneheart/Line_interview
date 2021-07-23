@@ -9,6 +9,7 @@ import sys
 import json
 import time
 import requests
+from filelock import FileLock
 
 from flask import Flask, request, abort, g
 
@@ -65,11 +66,12 @@ def callback():
     return 'OK'
 
 
-# state: 0(init), 1(diagnosis), 2(hospital), 3(covid-19), 4(knowledge), 5(knowledge_disease)
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user = event.source.user_id
-    print(g, flush=True)
+    g = {}
+    with FileLock("state.json"):
+        g = json.load(open("state.json"), "r")
     if 'STATE' not in g:
         g.STATE = {}
     if 'Converse_state' not in g:
@@ -190,4 +192,6 @@ def handle_message(event):
                         ])
             )
             line_bot_api.reply_message(event.reply_token, ret_message)
+    with FileLock("state.json"):
+        json.dump(g, open("state.json", "w"))
 
