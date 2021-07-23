@@ -133,6 +133,7 @@ def handle_message(event):
                         )
                     ])
         )
+        line_bot_api.reply_message(event.reply_token, ret_message)
     elif message == "Who are you?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
     elif message == "I want to chat with your bot.":
@@ -155,6 +156,7 @@ def handle_message(event):
                         )
                     ])
         )
+        line_bot_api.reply_message(event.reply_token, ret_message)
     else:
         ret_message = TextSendMessage(
                 text='Hello, How you doin\'?',
