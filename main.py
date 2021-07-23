@@ -10,7 +10,7 @@ import json
 import time
 import requests
 
-from flask import Flask, request, abort
+from flask import Flask, request, abort, g
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -64,26 +64,24 @@ def callback():
     return 'OK'
 
 
-STATE = {}
-Converse_state = {}
-DEPARTMENT = {}
 # state: 0(init), 1(diagnosis), 2(hospital), 3(covid-19), 4(knowledge), 5(knowledge_disease)
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    global STATE
-    global Converse_state
     user = event.source.user_id
-    if user not in STATE:
-        STATE[user] = 0
+    if not g.STATE:
+        g.STATE = {}
+    if not g.Converse_state:
+        g.Converse_state = {}
+    if user not in g.STATE:
+        g.STATE[user] = 0
     message = event.message.text
-    print(user, message, STATE, flush=True)
+    print(user, message, g.STATE, flush=True)
     if message == "What can you do?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I am willing to introduce my best friend Joshua You aka 游一心 to you. Besides, I can do some amazing tricks and you can check them in useful tools option.'))
     elif message == "Sentence Completion":
-        STATE[user] = 1
+        g.STATE[user] = 1
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please enter your input.'))
     elif message == "What skills does he have?":
-        STATE[user] = 0
         test_flex = json.load(open("./flex/pl.json", "r"))
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='As a student in computer science, Joshua You is good at lots of fields such as machine learning, data analysis, web development and so on.'))
         line_bot_api.push_message(user, TextSendMessage(text='I just list few programming languages that is often used by him below.'))
@@ -128,7 +126,7 @@ def handle_message(event):
     elif message == "Who are you?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
     elif message == "I want to chat with your bot.":
-        STATE[user] = 2
+        g.STATE[user] = 2
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="No problem. I have turned it on. Just start your conversion and say \"End Conversation\" when you want to end this conversation with the bot."))
     elif message == "What tools do you have?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
@@ -150,29 +148,28 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, ret_message)
     else:
-        time.sleep(0.5)
-        if message == "End Conversation" and STATE[user] == 2:
-            STATE[user] = 0
-            del Converse_state[user]
+        if message == "End Conversation" and g.STATE[user] == 2:
+            g.STATE[user] = 0
+            del g.Converse_state[user]
             return
-        elif STATE[user] == 2:
+        elif g.STATE[user] == 2:
             global DIALO_API_URL
-            if user not in Converse_state:
-                Converse_state[user] = {"past_user_inputs": [], "generated_responses":[]}
-            Converse_state[user]["text"] = message
-            data = query(Converse_state[user], DIALO_API_URL) 
+            if user not in g.Converse_state:
+                g.Converse_state[user] = {"past_user_inputs": [], "generated_responses":[]}
+            g.Converse_state[user]["text"] = message
+            data = query(g.Converse_state[user], DIALO_API_URL) 
             line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"]))
-            Converse_state[user]["past_user_inputs"].append(message)
-            Converse_state[user]["generated_responses"].append(data["generated_text"])
+            g.Converse_state[user]["past_user_inputs"].append(message)
+            g.Converse_state[user]["generated_responses"].append(data["generated_text"])
             return
-        elif STATE[user] == 1:
+        elif g.STATE[user] == 1:
             global MODEL_API_URL
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
             data = query({"inputs": message}, MODEL_API_URL)
             print(data, flush=True)
             line_bot_api.push_message(user, TextSendMessage(text="Here is the result of sentence completion."))
             line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].replace("\n", "")))
-            STATE[user] = 0
+            g.STATE[user] = 0
             return
         else:
             ret_message = TextSendMessage(
