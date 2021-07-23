@@ -75,9 +75,9 @@ def handle_message(event):
         STATE[user] = 0
     message = event.message.text
     if STATE[user] == 1:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.')
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
         data = query({"inputs": message})
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=data[0]["generated_text"])
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=data[0]["generated_text"]))
     elif message = "What can you do?":
         pass
     elif message == "gpt2test":
