@@ -70,11 +70,12 @@ DEPARTMENT = {}
 # state: 0(init), 1(diagnosis), 2(hospital), 3(covid-19), 4(knowledge), 5(knowledge_disease)
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    global STATE
     user = event.source.user_id
     if user not in STATE:
         STATE[user] = 0
     message = event.message.text
-    print(user, message, flush=True)
+    print(user, message, STATE, flush=True)
     if STATE[user] == 1:
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
         data = query({"inputs": message})
