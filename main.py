@@ -100,7 +100,7 @@ def handle_message(event):
         line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].split(".")[0] + "."))
         STATE[user] = 0
         return
-    sleep(0.3)
+    time.sleep(0.3)
     if message == "What can you do?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I am willing to introduce my best friend Joshua You aka 游一心 to you. Besides, I can do some amazing tricks and you can check them in useful tools option.'))
     elif message == "Sentence Completion":
