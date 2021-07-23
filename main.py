@@ -107,7 +107,7 @@ def handle_message(event):
         pass 
     elif message == "Does he take part in any projects?":
         pass
-    elif message == "Tell more about Joshua You":
+    elif message == "Tell more about Joshua You.":
         ret_message = TextSendMessage(
                 text='No problem! It is my pleasure to introduce my best friend. Which do you want to know?',
                 quick_reply=QuickReply(
@@ -131,7 +131,7 @@ def handle_message(event):
         )
     elif message == "Who are you?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
-    elif message == "Useful Tools":
+    elif message == "Show me some useful tools.":
         ret_message = TextSendMessage(
                 text='These tools are my exclusive treasure, which one you want to use.',
                 quick_reply=QuickReply(
