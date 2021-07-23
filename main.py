@@ -8,6 +8,7 @@ if os.getenv("DEV") is not None:
 import sys
 import json
 import time
+import requests
 
 from flask import Flask, request, abort
 
@@ -25,6 +26,14 @@ app = Flask(__name__)
 #  This would be the preferred approach but it just doesn't work
 #  CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
 #  CHANNEL_TOKEN = os.getenv('LINE_CHANNEL_TOKEN')
+def query(payload):
+    global MODEL_API_URL
+    global MODEL_API_TOKEN
+    headers = {"Authorization": f"Bearer {MODEL_API_TOKEN}"}
+    data = json.dumps(payload)
+    response = requests.request("POST", MODEL_API_URL, headers=headers, data=data)
+    return json.loads(response.content.decode("utf-8"))
+
 
 if CHANNEL_SECRET is None:
     print("LINE_CHANNEL_SECRET may be undefined.")
@@ -61,128 +70,39 @@ DEPARTMENT = {}
 # state: 0(init), 1(diagnosis), 2(hospital), 3(covid-19), 4(knowledge), 5(knowledge_disease)
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    global STATE
     user = event.source.user_id
-    print(user)
-    message = event.message.text
     if user not in STATE:
         STATE[user] = 0
-    if message == "What skills does he have?":
+    message = event.message.text
+    if STATE[user] == 1:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.')
+        data = query({"inputs": message})
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=data[0]["generated_text"])
+    elif message = "What can you do?":
+        pass
+    elif message == "gpt2test":
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please enter your input.')
+        STATE[user] = 1
+    elif message == "What skills does he have?":
         STATE[user] = 0
         test_flex = json.load(open("./flex/pl.json", "r"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='As a student in computer science, Joshua You is good at lots of fields such as machine learning, data analysis, web development and so on.')
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I just show some programming language that is often used by him below.')
         ret_message = FlexSendMessage(alt_text='Programming Language', contents=test_flex)
         line_bot_api.reply_message(event.reply_token, ret_message)
-    elif message == "初步診斷" and STATE[user] == 0:
-        msg = "請簡述您的症狀"
-        STATE[user] = 1
-        ret_message = TextSendMessage(text=msg)
-
-    elif STATE[user] == 1 and ("胸悶" in message) and ("疲累" in message):
-        msg =  "初步分析結果：\n心臟、肺臟、其他\n\n建議掛科：\n心臟科、胸腔內科\n\n可能病因：\n感染\n\n建議：\n若為心臟方面疾病，需盡快就醫檢查"
-        STATE[user] = 0
-        ret_message = TextSendMessage(
-                text=msg,
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=MessageAction(label="相關疾病查詢", text="相關疾病查詢")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="查詢附近的內科醫院", text="查詢附近的內科醫院")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="其他服務", text="其他服務")
-                        )
-                    ]))
-    elif STATE[user] == 1 and ("呼吸困難" in message) or ("嘨喘" in message):
-        STATE[user] = 0
-        msg =  "初步分析結果：\n氣管阻塞、氣喘、慢性阻塞性肺病(COPD)、肺栓塞\n近期covid19疫情嚴重，若仍有發燒、咳嗽等症狀同時出現，可能為新冠肺炎之感染!\n\n建議掛科：\n胸腔科、感染科\nCOVID-19患者請前往急診篩檢\n\n可能病因：\n肺部感染、心衰竭"
-        ret_message = TextSendMessage(
-                text=msg,
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=URIAction(label='Covid19篩檢站', uri='https://antiflu.cdc.gov.tw/ExaminationCounter')
-                        )
-                    ]))
-    elif STATE[user] == 1:
-        msg = "Kompanion 暫時還診斷不出來您的病因，請尋找專業醫生協助，保重身體喔！！"
-        ret_message = TextSendMessage(text=msg)
-        STATE[user] = 0
-
-    elif STATE[user] == 0 and message == "醫療小知識":
-        STATE[user] = 4
-        time.sleep(2)
-        msg = "請問要詢問那一科呢？"
-        qr = [QuickReplyButton(action=MessageAction(label=department, text=department)) for department in DEPARTMENTS]
-        ret_message = TextSendMessage(
-            text=msg,
-            quick_reply=QuickReply(items=qr)
-        )
-        
-    elif STATE[user] == 4:
-        STATE[user] = 5
-        msg = f"請問想了解{message}的什麼疾病呢？"
-        if message == "心臟科":
-            qr = [QuickReplyButton(action=MessageAction(label=department, text=department)) for department in ["心肌炎","高血壓心臟病","風濕性心臟病","缺血性心臟病","瓣膜性心臟病","感染性心內膜炎","心包膜疾病","心律不整","心臟腫瘤","冠心病","主動脈瘤破裂","心肌梗塞"]]
-            ret_message = TextSendMessage(text=msg,quick_reply=QuickReply(items=qr))
-        elif message == "胸腔內科":
-            qr = [QuickReplyButton(action=MessageAction(label=department, text=department)) for department in ["肺炎","肺栓塞","心因性肺水腫","氣胸","氣喘","肺癌","慢性阻塞性肺病(COPD)","慢性支氣管炎","急性支氣管炎","支氣管擴張症","支氣管癌"]]
-            ret_message = TextSendMessage(text=msg,quick_reply=QuickReply(items=qr))
-        else:
-            ret_message = TextSendMessage(text=msg)
-        time.sleep(2)
-
-    elif STATE[user] == 5 and message == "心肌炎":
-        STATE[user] = 0
-        msg = "提供以下資訊給您參考：\nhttps://wwwv.tsgh.ndmctsgh.edu.tw/unit/10012/12856"
-        ret_message = TextSendMessage(text=msg)
-
-    elif STATE[user] == 5:
-        STATE[user] = 0
-
-        msg = "提供以下資訊給您參考：\nhttps://wwwv.tsgh.ndmctsgh.edu.tw/unit/10012/12856"
-        ret_message = TextSendMessage(text=msg)
-
-    elif STATE[user] == 0 and message == "查詢附近的採檢站":
-        STATE[user] = 3
-        msg = "請提供您的位置"
-        ret_message = TextSendMessage(
-                text=msg,
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(     
-                            action=LocationAction(label="查詢附近的採檢站")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="其他服務", text="其他服務")
-                        )
-                    ]))
-
-    elif STATE[user] == 0 and message == "查詢附近的醫院":
-        STATE[user] = 2
-        time.sleep(2)
-        qr = [QuickReplyButton(action=MessageAction(label=department, text=department)) for department in DEPARTMENTS]
-        
-        ret_message = TextSendMessage(
-                text="要看哪一科呢?",
-                quick_reply=QuickReply(items=qr))
-
-    elif STATE[user] == 2 or message == "查詢附近的內科醫院":
-        msg = "請提供您的位置"
-        DEPARTMENT[user] = message
-        ret_message = TextSendMessage(
-                text=msg,
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(     
-                            action=LocationAction(label="查詢附近的醫院")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="其他服務", text="其他服務")
-                        )
-                    ]))
-
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I just list few here and there are many languages such matlab, R, Shell Script that Joshua You can use.')
+    elif message == "Tell me more about python packages.":
+        pass
+    elif message == "Tell me more about javascript frameworks.":
+        pass
+    elif message == "Who is he?":
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Joshua You. He is my best friend')
+    elif message == "Tell me about his education.":
+        pass
+    elif message == "Show me his photos.":
+        pass 
+    elif message == "Does he take part in any projects?":
+        pass
     else:
         STATE[user] = 0
         ret_message = TextSendMessage(
@@ -193,13 +113,16 @@ def handle_message(event):
                             action=MessageAction(label="Who is he?", text="Who is he?")
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="Education", text="Tell more about his education")
+                            action=MessageAction(label="Education", text="Tell more about his education.")
                         ),
                         QuickReplyButton(
                             action=MessageAction(label="Skills", text="What skills does he have?")
                         ),
                         QuickReplyButton(     
-                            action=MessageAction(label="Photos", text="show me his photos")
+                            action=MessageAction(label="Photos", text="Show me his photos.")
+                        ),
+                        QuickReplyButton(     
+                            action=MessageAction(label="Projects", text="Does he take part in any projects?")
                         )
                     ])
         )

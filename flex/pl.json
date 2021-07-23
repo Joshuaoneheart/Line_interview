@@ -307,7 +307,7 @@
             "contents": [
               {
                 "type": "text",
-                "text": "A programming language supports lots of frameworks to deliver responsiveness of a website's front_end and sometimes be used in backend.",
+                "text": "A programming language supports lots of frameworks to deliver responsiveness of a website's frontend and sometimes be used in backend.",
                 "wrap": true
               }
             ]
