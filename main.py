@@ -165,6 +165,8 @@ def handle_message(event):
             line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"]))
             g["Converse_state"][user]["past_user_inputs"].append(message)
             g["Converse_state"][user]["generated_responses"].append(data["generated_text"])
+            g["Converse_state"][user]["past_user_inputs"] = g["Converse_state"][user]["past_user_inputs"][-2:]
+            g["Converse_state"][user]["generated_responses"] = g["Converse_state"][user]["generated_responses"][-2:]
         elif g["STATE"][user] == 1:
             global MODEL_API_URL
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))

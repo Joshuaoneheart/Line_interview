@@ -163,7 +163,7 @@
             "action": {
               "type": "message",
               "label": "Packages",
-              "text": "Tell more about python packages."
+              "text": "Tell me more about python packages."
             }
           }
         ],
@@ -336,7 +336,7 @@
             "action": {
               "type": "message",
               "label": "Frameworks",
-              "text": "Tell more about javascript frameworks"
+              "text": "Tell me more about javascript frameworks"
             }
           }
         ],
