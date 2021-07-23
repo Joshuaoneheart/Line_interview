@@ -81,6 +81,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I am willing to introduce my best friend Joshua You aka 游一心 to you. Besides, I can do some amazing tricks and you can check them in useful tools option.'))
     elif message == "Sentence Completion":
         session["STATE"][user] = 1
+        session.modified = True
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please enter your input.'))
     elif message == "What skills does he have?":
         test_flex = json.load(open("./flex/pl.json", "r"))
@@ -128,6 +129,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
     elif message == "I want to chat with your bot.":
         session["STATE"][user] = 2
+        session.modified = True
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="No problem. I have turned it on. Just start your conversion and say \"End Conversation\" when you want to end this conversation with the bot."))
     elif message == "What tools do you have?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
@@ -152,6 +154,7 @@ def handle_message(event):
         if message == "End Conversation" and session["STATE"][user] == 2:
             session["STATE"][user] = 0
             del session["Converse_state"][user]
+            session.modified = True
             return
         elif session["STATE"][user] == 2:
             global DIALO_API_URL
@@ -171,6 +174,7 @@ def handle_message(event):
             line_bot_api.push_message(user, TextSendMessage(text="Here is the result of sentence completion."))
             line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].replace("\n", "")))
             session["STATE"][user] = 0
+            session.modified = True
             return
         else:
             ret_message = TextSendMessage(
