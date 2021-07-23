@@ -9,7 +9,7 @@ import sys
 import json
 import time
 import requests
-from filelock import FileLock
+from flask_caching import Cache
 
 from flask import Flask, request, abort, g
 
@@ -22,8 +22,8 @@ from linebot.exceptions import (
 from linebot.models import *
 
 app = Flask(__name__)
-app.secret_key = os.urandom(16)
-app.config['SESSION_TYPE'] = 'filesystem'
+cache = Cache()
+cache.init_app(app=app, config={"CACHE_TYPE": "filesystem",'CACHE_DIR': Path('/tmp')})
 # getting channel secret
 #  This would be the preferred approach but it just doesn't work
 #  CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
@@ -69,10 +69,9 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user = event.source.user_id
-    if os.path.exists("state.json"):
-        with FileLock("state.json"):
-            g = json.load(open("state.json", "r"))
-    else:
+    try:
+        g = cache.get("g")
+    except:
         g = {}
     if 'STATE' not in g:
         g["STATE"] = {}
@@ -194,6 +193,5 @@ def handle_message(event):
                         ])
             )
             line_bot_api.reply_message(event.reply_token, ret_message)
-    with FileLock("state.json"):
-        json.dump(g, open("state.json", "w"))
+    cache.set("g", g)
 
