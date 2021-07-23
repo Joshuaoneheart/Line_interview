@@ -77,30 +77,6 @@ def handle_message(event):
         STATE[user] = 0
     message = event.message.text
     print(user, message, STATE, flush=True)
-    if message == "End Conversation" and STATE[user] == 2:
-        STATE[user] = 0
-        del Converse_state[user]
-        return
-    elif STATE[user] == 2:
-        global DIALO_API_URL
-        if user not in Converse_state:
-            Converse_state[user] = {"past_user_inputs": [], "generated_responses":[]}
-        Converse_state[user] = message
-        data = query(Converse_state[user], DIALO_API_URL) 
-        line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"]))
-        Converse_state["past_user_inputs"].append(message)
-        Converse_state["generated_responses"].append(data["generated_text"])
-        return
-    elif STATE[user] == 1:
-        global MODEL_API_URL
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
-        data = query({"inputs": message}, MODEL_API_URL)
-        print(data, flush=True)
-        line_bot_api.push_message(user, TextSendMessage(text="Here is the result of sentence completion."))
-        line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].replace("\n", "")))
-        STATE[user] = 0
-        return
-    time.sleep(0.3)
     if message == "What can you do?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I am willing to introduce my best friend Joshua You aka 游一心 to you. Besides, I can do some amazing tricks and you can check them in useful tools option.'))
     elif message == "Sentence Completion":
@@ -174,20 +150,45 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, ret_message)
     else:
-        ret_message = TextSendMessage(
-                text='Hello, How you doin\'?',
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=MessageAction(label="Who are you?", text="Who are you?")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="Joshua You", text="Tell me more about Joshua You.")
-                        ),
-                        QuickReplyButton(
-                            action=MessageAction(label="Useful Tools", text="Show me some useful tools.")
-                        )
-                    ])
-        )
-        line_bot_api.reply_message(event.reply_token, ret_message)
+        time.sleep(0.3)
+        if message == "End Conversation" and STATE[user] == 2:
+            STATE[user] = 0
+            del Converse_state[user]
+            return
+        elif STATE[user] == 2:
+            global DIALO_API_URL
+            if user not in Converse_state:
+                Converse_state[user] = {"past_user_inputs": [], "generated_responses":[]}
+            Converse_state[user] = message
+            data = query(Converse_state[user], DIALO_API_URL) 
+            line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"]))
+            Converse_state["past_user_inputs"].append(message)
+            Converse_state["generated_responses"].append(data["generated_text"])
+            return
+        elif STATE[user] == 1:
+            global MODEL_API_URL
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
+            data = query({"inputs": message}, MODEL_API_URL)
+            print(data, flush=True)
+            line_bot_api.push_message(user, TextSendMessage(text="Here is the result of sentence completion."))
+            line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].replace("\n", "")))
+            STATE[user] = 0
+            return
+        else:
+            ret_message = TextSendMessage(
+                    text='Hello, How you doin\'?',
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=MessageAction(label="Who are you?", text="Who are you?")
+                            ),
+                            QuickReplyButton(
+                                action=MessageAction(label="Joshua You", text="Tell me more about Joshua You.")
+                            ),
+                            QuickReplyButton(
+                                action=MessageAction(label="Useful Tools", text="Show me some useful tools.")
+                            )
+                        ])
+            )
+            line_bot_api.reply_message(event.reply_token, ret_message)
 
