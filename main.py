@@ -71,6 +71,7 @@ DEPARTMENT = {}
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user = event.source.user_id
+    print(user, message, flush=True)
     if user not in STATE:
         STATE[user] = 0
     message = event.message.text
