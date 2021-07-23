@@ -69,9 +69,11 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user = event.source.user_id
-    g = {}
-    with FileLock("state.json"):
-        g = json.load(open("state.json", "r"))
+    if os.path.exists("state.json"):
+        with FileLock("state.json"):
+            g = json.load(open("state.json", "r"))
+    else:
+        g = {}
     if 'STATE' not in g:
         g.STATE = {}
     if 'Converse_state' not in g:
