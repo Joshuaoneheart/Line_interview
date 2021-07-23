@@ -78,25 +78,25 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
         data = query({"inputs": message})
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=data[0]["generated_text"]))
-    elif message = "What can you do?":
+    elif message == "What can you do?":
         pass
     elif message == "gpt2test":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please enter your input.')
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please enter your input.'))
         STATE[user] = 1
     elif message == "What skills does he have?":
         STATE[user] = 0
         test_flex = json.load(open("./flex/pl.json", "r"))
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='As a student in computer science, Joshua You is good at lots of fields such as machine learning, data analysis, web development and so on.')
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I just show some programming language that is often used by him below.')
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='As a student in computer science, Joshua You is good at lots of fields such as machine learning, data analysis, web development and so on.'))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I just show some programming language that is often used by him below.'))
         ret_message = FlexSendMessage(alt_text='Programming Language', contents=test_flex)
         line_bot_api.reply_message(event.reply_token, ret_message)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I just list few here and there are many languages such matlab, R, Shell Script that Joshua You can use.')
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I just list few here and there are many languages such matlab, R, Shell Script that Joshua You can use.'))
     elif message == "Tell me more about python packages.":
         pass
     elif message == "Tell me more about javascript frameworks.":
         pass
     elif message == "Who is he?":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Joshua You. He is my best friend')
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Joshua You. He is my best friend'))
     elif message == "Tell me about his education.":
         pass
     elif message == "Show me his photos.":
