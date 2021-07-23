@@ -80,8 +80,8 @@ def handle_message(event):
     if message == "What can you do?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I am willing to introduce my best friend Joshua You aka 游一心 to you. Besides, I can do some amazing tricks and you can check them in useful tools option.'))
     elif message == "Sentence Completion":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please enter your input.'))
         STATE[user] = 1
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please enter your input.'))
     elif message == "What skills does he have?":
         STATE[user] = 0
         test_flex = json.load(open("./flex/pl.json", "r"))
@@ -150,7 +150,7 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, ret_message)
     else:
-        time.sleep(0.3)
+        time.sleep(0.5)
         if message == "End Conversation" and STATE[user] == 2:
             STATE[user] = 0
             del Converse_state[user]
@@ -159,7 +159,7 @@ def handle_message(event):
             global DIALO_API_URL
             if user not in Converse_state:
                 Converse_state[user] = {"past_user_inputs": [], "generated_responses":[]}
-            Converse_state[user] = message
+            Converse_state[user]["text"] = message
             data = query(Converse_state[user], DIALO_API_URL) 
             line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"]))
             Converse_state[user]["past_user_inputs"].append(message)
