@@ -1,0 +1,234 @@
+{
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://www.marcus-povey.co.uk/wp-content/jquery_logo.jpg",
+        "size": "5xl",
+        "aspectRatio": "20:17.5",
+        "aspectMode": "cover"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "JQuery",
+            "weight": "bold",
+            "size": "xl"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "A framework to simplify HTML DOM tree manipulation, which is the most popular package of javascript nowaday.",
+                    "wrap": true,
+                    "size": "md",
+                    "flex": 5
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Document",
+              "uri": "https://devdocs.io/jquery/"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "size": "5xl",
+        "aspectRatio": "27:23.8",
+        "aspectMode": "fit",
+        "url": "https://www.todesktop.com/works-with/nodejs.png",
+        "margin": "none"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "NodeJS",
+            "weight": "bold",
+            "size": "xl"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "An open-source, cross-platform, back-end runtime environment enables developers to write command line tools and run scripts server-side to produce dynamic web page content.",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Document",
+              "uri": "https://devdocs.io/node/"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMY8GFouC0zidrVWiMnDT8VaHFaTNsZUJRdKqWIUNShG9cOaNqz6DwwazQyfGjw9L3Z7mc46UjmqTBBg&usqp=CAU",
+        "size": "5xl",
+        "aspectRatio": "40:35",
+        "aspectMode": "fit",
+        "position": "relative",
+        "offsetBottom": "none",
+        "offsetEnd": "none",
+        "offsetTop": "none",
+        "offsetStart": "xxl"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "weight": "bold",
+            "size": "xl",
+            "text": "ExpressJS"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "A nodejs framework to develop web application and api.",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Document",
+              "uri": "https://devdocs.io/express/"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://cdn.iconscout.com/icon/free/png-256/react-4-1175110.png",
+        "size": "xxl",
+        "aspectRatio": "10:12.3",
+        "aspectMode": "cover",
+        "offsetTop": "none",
+        "offsetBottom": "none"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "ReactJS",
+            "weight": "bold",
+            "size": "xl"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "An open source frontend javascript library for build user interface.",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Document",
+              "uri": "https://devdocs.io/react/"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    }
+  ]
+}

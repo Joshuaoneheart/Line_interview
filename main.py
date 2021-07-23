@@ -95,7 +95,10 @@ def handle_message(event):
     elif message == "Tell me more about python packages.":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Here I list some packages of python that Joshua You often use.'))
     elif message == "Tell me more about javascript frameworks.":
+        test_flex = json.load(open("./flex/javascript.json", "r"))
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Here I list some frameworks of javascript that Joshua You often use.'))
+        ret_message = FlexSendMessage(alt_text='Frameworks', contents=test_flex)
+        line_bot_api.push_message(user, ret_message)
     elif message == "Who is he?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Joshua You and I are best friends ever and almost tell everything to each other. He is now a student in CSIE department of NTU. \nAlthough he start his life as a computer engineer since college, he work really hard to improve himself. Sometimes he stays at his computer all day long programming. He is good at algorithm, Unix/Linux-based system, Machine Learning and Web Design and usually show me about his works. I have to say that he is truly talented in such fields.'))
     elif message == "Tell me more about his education.":
