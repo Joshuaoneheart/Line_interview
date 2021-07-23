@@ -26,12 +26,11 @@ app = Flask(__name__)
 #  This would be the preferred approach but it just doesn't work
 #  CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
 #  CHANNEL_TOKEN = os.getenv('LINE_CHANNEL_TOKEN')
-def query(payload):
-    global MODEL_API_URL
+def query(payload, url):
     global MODEL_API_TOKEN
     headers = {"Authorization": f"Bearer {MODEL_API_TOKEN}"}
     data = json.dumps(payload)
-    response = requests.request("POST", MODEL_API_URL, headers=headers, data=data)
+    response = requests.request("POST", url, headers=headers, data=data)
     return json.loads(response.content.decode("utf-8"))
 
 
@@ -66,27 +65,43 @@ def callback():
 
 
 STATE = {}
+Converse_state = {}
 DEPARTMENT = {}
 # state: 0(init), 1(diagnosis), 2(hospital), 3(covid-19), 4(knowledge), 5(knowledge_disease)
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global STATE
+    global converse_state
     user = event.source.user_id
     if user not in STATE:
         STATE[user] = 0
     message = event.message.text
     print(user, message, STATE, flush=True)
     if message == "End Conversation" and STATE[user] == 2:
-        STATE[user] = 1
-    elif STATE[user] == 2:
-        pass
-    if STATE[user] == 1:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
-        data = query({"inputs": message})
-        print(data, flush=True)
-        line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"]))
         STATE[user] = 0
-    elif message == "What can you do?":
+        del Converse_state[user]
+        return
+    elif STATE[user] == 2:
+        global DIALO_API_URL
+        if user not in Converse_state:
+            Converse_state[user] = {"past_user_inputs": [], "generated_responses":[]}
+        Converse_state[user] = message
+        data = query(Converse_state[user], DIALO_API_URL) 
+        line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"])
+        Converse_state["past_user_inputs"].append(message)
+        Converse_state["generated_responses"].append(data["generated_text"])
+        return
+    elif STATE[user] == 1:
+        global MODEL_API_URL
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
+        data = query({"inputs": message}, MODEL_API_URL)
+        print(data, flush=True)
+        line_bot_api.push_message(user, "Here is the result of sentence completion.")
+        line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].split(".")[0] + "."))
+        STATE[user] = 0
+        return
+    sleep(0.3)
+    if message == "What can you do?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I am willing to introduce my best friend Joshua You aka 游一心 to you. Besides, I can do some amazing tricks and you can check them in useful tools option.'))
     elif message == "Sentence Completion":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please enter your input.'))
