@@ -71,7 +71,7 @@ def handle_message(event):
     user = event.source.user_id
     g = {}
     with FileLock("state.json"):
-        g = json.load(open("state.json"), "r")
+        g = json.load(open("state.json", "r"))
     if 'STATE' not in g:
         g.STATE = {}
     if 'Converse_state' not in g:
