@@ -68,9 +68,9 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user = event.source.user_id
-    if not g.STATE:
+    if 'STATE' in g:
         g.STATE = {}
-    if not g.Converse_state:
+    if 'Converse_state' in g:
         g.Converse_state = {}
     if user not in g.STATE:
         g.STATE[user] = 0
