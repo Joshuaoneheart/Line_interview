@@ -69,9 +69,8 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user = event.source.user_id
-    try:
-        g = cache.get("g")
-    except:
+    g = cache.get("g")
+    if g == None:
         g = {}
     if 'STATE' not in g:
         g["STATE"] = {}
@@ -156,6 +155,7 @@ def handle_message(event):
         if message == "End Conversation" and g["STATE"][user] == 2:
             g["STATE"][user] = 0
             del g["Converse_state"][user]
+            line_bot_api.push_message(user, TextSendMessage(text="The conversation is ended and the bot is turned off."))
             return
         elif g["STATE"][user] == 2:
             global DIALO_API_URL
