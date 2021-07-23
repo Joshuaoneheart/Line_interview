@@ -76,6 +76,10 @@ def handle_message(event):
         STATE[user] = 0
     message = event.message.text
     print(user, message, STATE, flush=True)
+    if message == "End Conversation" and STATE[user] == 2:
+        STATE[user] = 1
+    elif STATE[user] == 2:
+        pass
     if STATE[user] == 1:
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
         data = query({"inputs": message})
@@ -131,19 +135,23 @@ def handle_message(event):
         )
     elif message == "Who are you?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
+    elif message == "I want to chat with your bot.":
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="No problem. I have turned it on. Just start your conversion and say \"End Conversation\" when you want to end this conversation with the bot."))
+    elif message == "What tools do you have?":
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
     elif message == "Show me some useful tools.":
         ret_message = TextSendMessage(
                 text='These tools are my exclusive treasure, which one you want to use.',
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=MessageAction(label="Introduction", text="What tools you have?")
+                            action=MessageAction(label="Introduction", text="What tools do you have?")
                         ),
                         QuickReplyButton(
                             action=MessageAction(label="Sentence Completion", text="Sentence Completion")
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="Useful Tools", text="Show me some useful tools.")
+                            action=MessageAction(label="Chat Bot", text="I want to chat with your bot.")
                         )
                     ])
         )
