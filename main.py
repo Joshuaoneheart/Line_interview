@@ -81,9 +81,10 @@ def handle_message(event):
         data = query({"inputs": message})
         print(data, flush=True)
         line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"]))
+        STATE[user] = 0
     elif message == "What can you do?":
-        pass
-    elif message == "gpt2test":
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I am willing to introduce my best friend Joshua You aka 游一心 to you. Besides, I can do some amazing tricks and you can check them in useful tools option.'))
+    elif message == "Sentence Completion":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please enter your input.'))
         STATE[user] = 1
     elif message == "What skills does he have?":
@@ -95,21 +96,20 @@ def handle_message(event):
         line_bot_api.push_message(user, ret_message)
         line_bot_api.push_message(user, TextSendMessage(text='I just list few here and there are many languages such matlab, R, Shell Script that Joshua You can use.'))
     elif message == "Tell me more about python packages.":
-        pass
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Here I list some packages of python that Joshua You often use.'))
     elif message == "Tell me more about javascript frameworks.":
-        pass
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Here I list some frameworks of javascript that Joshua You often use.'))
     elif message == "Who is he?":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Joshua You. He is my best friend'))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Joshua You and I are best friends ever and almost tell everything to each other. He is now a student in CSIE department of NTU. Although he start his life as a computer engineer since college, he work really hard to improve himself. Sometimes he stays at his computer all day long programming. He is good at algorithm, Unix/Linux-based system, Machine Learning and Web Design and usually show me about his works. I have to say that he is truly talented in such fields.'))
     elif message == "Tell me about his education.":
         pass
     elif message == "Show me his photos.":
         pass 
     elif message == "Does he take part in any projects?":
         pass
-    else:
-        STATE[user] = 0
+    elif message == "Tell more about Joshua You":
         ret_message = TextSendMessage(
-                text='Still want to know more about Joshua You? No problem! It is my pleasure to introduce my best friend and I am always here for you.',
+                text='No problem! It is my pleasure to introduce my best friend. Which do you want to know?',
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
@@ -126,6 +126,40 @@ def handle_message(event):
                         ),
                         QuickReplyButton(     
                             action=MessageAction(label="Projects", text="Does he take part in any projects?")
+                        )
+                    ])
+        )
+    elif message == "Who are you?":
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
+    elif message == "Useful Tools":
+        ret_message = TextSendMessage(
+                text='These tools are my exclusive treasure, which one you want to use.',
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=MessageAction(label="Introduction", text="What tools you have?")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="Sentence Completion", text="Sentence Completion")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="Useful Tools", text="Show me some useful tools.")
+                        )
+                    ])
+        )
+    else:
+        ret_message = TextSendMessage(
+                text='Hello, How you doin\'?',
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=MessageAction(label="Who are you?", text="Who are you?")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="Joshua You", text="Tell me more about Joshua You.")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="Useful Tools", text="Show me some useful tools.")
                         )
                     ])
         )
