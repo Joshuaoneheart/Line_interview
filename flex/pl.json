@@ -336,7 +336,7 @@
             "action": {
               "type": "message",
               "label": "Frameworks",
-              "text": "Tell me more about javascript frameworks"
+              "text": "Tell me more about javascript frameworks."
             }
           }
         ],

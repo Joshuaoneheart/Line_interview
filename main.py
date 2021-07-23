@@ -140,7 +140,21 @@ def handle_message(event):
         g["STATE"][user] = 2
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="No problem. I have turned it on. Just start your conversion and say \"End Conversation\" when you want to end this conversation with the bot."))
     elif message == "What tools do you have?":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="There are two tools developed by me and Joshua You using Machine Learning and web design techniques."))
+        line_bot_api.push_message(user, TextSendMessage(text="1. Sentence Completion\nYou can input an uncomplete sentence and our bot will output a complete sentence after yours automatically."))
+        line_bot_api.push_message(user, TextSendMessage(text="2. Chat Bot\nWe establish a chat bot online and you can try to chat with it. It will be funny!"))
+        line_bot_api.push_message(user, TextSendMessage(
+                text='Which one do you want to use?',
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=MessageAction(label="Sentence Completion", text="Sentence Completion")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="Chat Bot", text="I want to chat with your bot.")
+                        )
+                    ])
+        ))
     elif message == "Show me some useful tools.":
         ret_message = TextSendMessage(
                 text='These tools are my exclusive treasure, which one you want to use.',
