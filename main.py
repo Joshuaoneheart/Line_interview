@@ -156,7 +156,6 @@ def handle_message(event):
             g["STATE"][user] = 0
             del g["Converse_state"][user]
             line_bot_api.push_message(user, TextSendMessage(text="The conversation is ended and the bot is turned off."))
-            return
         elif g["STATE"][user] == 2:
             global DIALO_API_URL
             if user not in g.Converse_state:
@@ -166,16 +165,14 @@ def handle_message(event):
             line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"]))
             g["Converse_state"][user]["past_user_inputs"].append(message)
             g["Converse_state"][user]["generated_responses"].append(data["generated_text"])
-            return
         elif g["STATE"][user] == 1:
             global MODEL_API_URL
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
             data = query({"inputs": message}, MODEL_API_URL)
             print(data, flush=True)
             line_bot_api.push_message(user, TextSendMessage(text="Here is the result of sentence completion."))
-            line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].replace("\n", "")))
+            line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].split("\n")[0]))
             g["STATE"][user] = 0
-            return
         else:
             ret_message = TextSendMessage(
                     text='Hello, How you doin\'?',
