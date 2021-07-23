@@ -87,7 +87,7 @@ def handle_message(event):
             Converse_state[user] = {"past_user_inputs": [], "generated_responses":[]}
         Converse_state[user] = message
         data = query(Converse_state[user], DIALO_API_URL) 
-        line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"])
+        line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"]))
         Converse_state["past_user_inputs"].append(message)
         Converse_state["generated_responses"].append(data["generated_text"])
         return
