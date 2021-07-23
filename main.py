@@ -69,13 +69,13 @@ def callback():
 def handle_message(event):
     user = event.source.user_id
     if 'STATE' not in session:
-        session.STATE = {}
+        session["STATE"] = {}
     if 'Converse_state' not in session:
-        session.Converse_state = {}
+        session["Converse_state"] = {}
     if user not in session.STATE:
-        session.STATE[user] = 0
+        session["STATE"][user] = 0
     message = event.message.text
-    print(user, message, session.STATE, session, flush=True)
+    print(user, message, session["STATE"], session, flush=True)
     if message == "What can you do?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I am willing to introduce my best friend Joshua You aka 游一心 to you. Besides, I can do some amazing tricks and you can check them in useful tools option.'))
     elif message == "Sentence Completion":
