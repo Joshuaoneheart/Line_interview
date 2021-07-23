@@ -10,7 +10,7 @@ import json
 import time
 import requests
 
-from flask import Flask, request, abort, session
+from flask import Flask, request, abort, g
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -69,24 +69,19 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     user = event.source.user_id
-    session.permanent = True
-    print(session, flush=True)
-    if 'STATE' not in session:
-        session["STATE"] = {}
-        session.modified = True
-    if 'Converse_state' not in session:
-        session["Converse_state"] = {}
-        session.modified = True
-    if user not in session["STATE"]:
-        session["STATE"][user] = 0
-        session.modified = True
+    print(g, flush=True)
+    if 'STATE' not in g:
+        g["STATE"] = {}
+    if 'Converse_state' not in g:
+        g["Converse_state"] = {}
+    if user not in g["STATE"]:
+        g["STATE"][user] = 0
     message = event.message.text
-    print(user, message, session["STATE"], session, flush=True)
+    print(user, message, g["STATE"], g, flush=True)
     if message == "What can you do?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I am willing to introduce my best friend Joshua You aka 游一心 to you. Besides, I can do some amazing tricks and you can check them in useful tools option.'))
     elif message == "Sentence Completion":
-        session["STATE"][user] = 1
-        session.modified = True
+        g["STATE"][user] = 1
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please enter your input.'))
     elif message == "What skills does he have?":
         test_flex = json.load(open("./flex/pl.json", "r"))
@@ -100,7 +95,7 @@ def handle_message(event):
     elif message == "Tell me more about javascript frameworks.":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Here I list some frameworks of javascript that Joshua You often use.'))
     elif message == "Who is he?":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Joshua You and I are best friends ever and almost tell everything to each other. He is now a student in CSIE department of NTU. Although he start his life as a computer engineer since college, he work really hard to improve himself. Sometimes he stays at his computer all day long programminsession. He is good at algorithm, Unix/Linux-based system, Machine Learning and Web Design and usually show me about his works. I have to say that he is truly talented in such fields.'))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Joshua You and I are best friends ever and almost tell everything to each other. He is now a student in CSIE department of NTU. Although he start his life as a computer engineer since college, he work really hard to improve himself. Sometimes he stays at his computer all day long programming. He is good at algorithm, Unix/Linux-based system, Machine Learning and Web Design and usually show me about his works. I have to say that he is truly talented in such fields.'))
     elif message == "Tell me about his education.":
         pass
     elif message == "Show me his photos.":
@@ -133,8 +128,7 @@ def handle_message(event):
     elif message == "Who are you?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
     elif message == "I want to chat with your bot.":
-        session["STATE"][user] = 2
-        session.modified = True
+        g["STATE"][user] = 2
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="No problem. I have turned it on. Just start your conversion and say \"End Conversation\" when you want to end this conversation with the bot."))
     elif message == "What tools do you have?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
@@ -156,30 +150,28 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, ret_message)
     else:
-        if message == "End Conversation" and session["STATE"][user] == 2:
-            session["STATE"][user] = 0
-            del session["Converse_state"][user]
-            session.modified = True
+        if message == "End Conversation" and g["STATE"][user] == 2:
+            g["STATE"][user] = 0
+            del g["Converse_state"][user]
             return
-        elif session["STATE"][user] == 2:
+        elif g["STATE"][user] == 2:
             global DIALO_API_URL
-            if user not in session["Converse_state"]:
-                session["Converse_state"][user] = {"past_user_inputs": [], "generated_responses":[]}
-            session["Converse_state"][user]["text"] = message
-            data = query(session["Converse_state"][user], DIALO_API_URL) 
+            if user not in g["Converse_state"]:
+                g["Converse_state"][user] = {"past_user_inputs": [], "generated_responses":[]}
+            g["Converse_state"][user]["text"] = message
+            data = query(g["Converse_state"][user], DIALO_API_URL) 
             line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"]))
-            session["Converse_state"][user]["past_user_inputs"].append(message)
-            session["Converse_state"][user]["generated_responses"].append(data["generated_text"])
+            g["Converse_state"][user]["past_user_inputs"].append(message)
+            g["Converse_state"][user]["generated_responses"].append(data["generated_text"])
             return
-        elif session["STATE"][user] == 1:
+        elif g["STATE"][user] == 1:
             global MODEL_API_URL
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
             data = query({"inputs": message}, MODEL_API_URL)
             print(data, flush=True)
             line_bot_api.push_message(user, TextSendMessage(text="Here is the result of sentence completion."))
             line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].replace("\n", "")))
-            session["STATE"][user] = 0
-            session.modified = True
+            g["STATE"][user] = 0
             return
         else:
             ret_message = TextSendMessage(
