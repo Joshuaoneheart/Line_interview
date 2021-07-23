@@ -158,7 +158,7 @@ def handle_message(event):
             line_bot_api.push_message(user, TextSendMessage(text="The conversation is ended and the bot is turned off."))
         elif g["STATE"][user] == 2:
             global DIALO_API_URL
-            if user not in g.Converse_state:
+            if user not in g["Converse_state"]:
                 g["Converse_state"][user] = {"past_user_inputs": [], "generated_responses":[]}
             g["Converse_state"][user]["text"] = message
             data = query(g.Converse_state[user], DIALO_API_URL) 
