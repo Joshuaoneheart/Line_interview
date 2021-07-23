@@ -71,7 +71,7 @@ DEPARTMENT = {}
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global STATE
-    global converse_state
+    global Converse_state
     user = event.source.user_id
     if user not in STATE:
         STATE[user] = 0
