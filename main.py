@@ -98,13 +98,13 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Here I list some frameworks of javascript that Joshua You often use.'))
     elif message == "Who is he?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Joshua You and I are best friends ever and almost tell everything to each other. He is now a student in CSIE department of NTU. \nAlthough he start his life as a computer engineer since college, he work really hard to improve himself. Sometimes he stays at his computer all day long programming. He is good at algorithm, Unix/Linux-based system, Machine Learning and Web Design and usually show me about his works. I have to say that he is truly talented in such fields.'))
-    elif message == "Tell me about his education.":
+    elif message == "Tell me more about his education.":
         test_flex = json.load(open("./flex/education.json", "r"))
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Below is all I know about his education.'))
         ret_message = FlexSendMessage(alt_text='Education', contents=test_flex)
         line_bot_api.push_message(user, ret_message)
     elif message == "Show me his photos.": 
-        line_bot_api.push_message(user, TextSendMessage(text="For his privacy, I cannot directly give you his photos. However, here is a link and I am sure all photos in it are what he would not complain about showing to other."))
+        line_bot_api.push_message(user, TextSendMessage(text="For his privacy, I cannot directly give you his photos. However, here is a link and I am sure all photos in it are what he would not complain about showing to others."))
         line_bot_api.push_message(user, TextSendMessage(text="https://drive.google.com/drive/folders/17LbboEPgmB33Qk2NI3vgmR8amg6OHLsw?usp=sharing"))
     elif message == "Does he take part in any projects?":
         pass
@@ -117,7 +117,7 @@ def handle_message(event):
                             action=MessageAction(label="Who is he?", text="Who is he?")
                         ),
                         QuickReplyButton(
-                            action=MessageAction(label="Education", text="Tell more about his education.")
+                            action=MessageAction(label="Education", text="Tell me more about his education.")
                         ),
                         QuickReplyButton(
                             action=MessageAction(label="Skills", text="What skills does he have?")
