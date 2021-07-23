@@ -149,7 +149,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, ret_message)
     else:
         if message == "End Conversation" and session.STATE[user] == 2:
-             notsession.STATE[user] = 0
+            session.STATE[user] = 0
             del session.Converse_state[user]
             return
         elif session.STATE[user] == 2:
