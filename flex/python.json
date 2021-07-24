@@ -1,0 +1,294 @@
+{
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "size": "5xl",
+        "aspectRatio": "27:23.8",
+        "aspectMode": "fit",
+        "url": "https://pytorch.org/tutorials/_static/img/thumbnails/cropped/profiler.png",
+        "margin": "none"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "Pytorch",
+            "weight": "bold",
+            "size": "xl"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "An open-source machine learning library which provides tensor computing, gpu acceleration and so on.",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Document",
+              "uri": "https://pytorch.org/docs/stable/index.html"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://imgur.com/DWQyNWR.png",
+        "size": "5xl",
+        "aspectRatio": "40:35",
+        "aspectMode": "fit",
+        "position": "relative",
+        "offsetBottom": "none",
+        "offsetEnd": "none",
+        "offsetTop": "none",
+        "offsetStart": "none"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "weight": "bold",
+            "size": "xl",
+            "text": "Pandas"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "A library designed for data manipulation and analysis which provides data structures and operations for numerical tables and time series.",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Document",
+              "uri": "https://pandas.pydata.org/docs/"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://imgur.com/KzjIafE.png",
+        "size": "5xl",
+        "aspectRatio": "40:35",
+        "aspectMode": "fit",
+        "position": "relative",
+        "offsetBottom": "none",
+        "offsetEnd": "none",
+        "offsetTop": "none",
+        "offsetStart": "none"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "weight": "bold",
+            "size": "xl",
+            "text": "Numpy"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "A library supporting for large, multi-dimensional arrays and matrices, along with a large collection of high-level mathematical functions.",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Document",
+              "uri": "https://numpy.org/doc/"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://assets.datacamp.com/production/repositories/4199/datasets/3bdb4c210f93c5735bfd31c2bbd7e290f94c4a2b/matplotlib_logo.png",
+        "size": "5xl",
+        "aspectRatio": "20:17.5",
+        "aspectMode": "cover"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "Matplotlib",
+            "weight": "bold",
+            "size": "xl"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "A plotting library which is widely used in visualization and provides an object-oriented API for embedding plots into application.",
+                    "wrap": true,
+                    "size": "md",
+                    "flex": 5
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Document",
+              "uri": "https://matplotlib.org/"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://imgur.com/6Yfz5pW.png",
+        "size": "full",
+        "aspectRatio": "40:25.7",
+        "aspectMode": "fit",
+        "offsetTop": "xxl",
+        "offsetBottom": "none",
+        "offsetStart": "none",
+        "offsetEnd": "none"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "Pygame",
+            "weight": "bold",
+            "size": "xl"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "A cross-platform set of modules designed for writing video games including computer graphic and sound libraries.",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Document",
+              "uri": "https://www.pygame.org/docs/"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    }
+  ]
+}

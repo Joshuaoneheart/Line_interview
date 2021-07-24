@@ -94,6 +94,9 @@ def handle_message(event):
         line_bot_api.push_message(user, TextSendMessage(text='There are many languages such as matlab, R, Shell Script that Joshua You can use.'))
     elif message == "Tell me more about python packages.":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Here I list some packages of python that Joshua You often use.'))
+        test_flex = json.load(open("./flex/python.json", "r"))
+        ret_message = FlexSendMessage(alt_text='Packages', contents=test_flex)
+        line_bot_api.push_message(user, ret_message)
     elif message == "Tell me more about javascript frameworks.":
         test_flex = json.load(open("./flex/javascript.json", "r"))
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Here I list some frameworks of javascript that Joshua You often use.'))
@@ -110,7 +113,10 @@ def handle_message(event):
         line_bot_api.push_message(user, TextSendMessage(text="For his privacy, I cannot directly give you his photos. However, here is a link and I am sure all photos in it are what he would not complain about showing to others."))
         line_bot_api.push_message(user, TextSendMessage(text="https://drive.google.com/drive/folders/17LbboEPgmB33Qk2NI3vgmR8amg6OHLsw?usp=sharing"))
     elif message == "Does he take part in any projects?":
-        pass
+        test_flex = json.load(open("./flex/project.json", "r"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Off course. Joshua You is a productive engineer.'))
+        ret_message = FlexSendMessage(alt_text='Projects', contents=test_flex)
+        line_bot_api.push_message(user, ret_message)
     elif message == "Tell me more about Joshua You.":
         ret_message = TextSendMessage(
                 text='No problem! It is my pleasure to introduce my best friend. Which do you want to know?',
@@ -184,10 +190,12 @@ def handle_message(event):
             g["Converse_state"][user]["text"] = message
             data = query(g["Converse_state"][user], DIALO_API_URL) 
             line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"]))
+            '''
             g["Converse_state"][user]["past_user_inputs"].append(message)
             g["Converse_state"][user]["generated_responses"].append(data["generated_text"])
             g["Converse_state"][user]["past_user_inputs"] = g["Converse_state"][user]["past_user_inputs"][-2:]
             g["Converse_state"][user]["generated_responses"] = g["Converse_state"][user]["generated_responses"][-2:]
+            '''
         elif g["STATE"][user] == 1:
             global MODEL_API_URL
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))

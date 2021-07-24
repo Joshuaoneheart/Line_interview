@@ -1,0 +1,175 @@
+{
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://imgur.com/rfqmlIa.png",
+        "size": "full",
+        "aspectRatio": "40:26",
+        "aspectMode": "fit",
+        "position": "relative",
+        "offsetBottom": "none",
+        "offsetEnd": "none",
+        "offsetTop": "none",
+        "offsetStart": "none"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "weight": "bold",
+            "size": "xl",
+            "text": "ElectroShock "
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "A library designed for data manipulation and analysis which provides data structures and operations for numerical tables and time series.",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Github",
+              "uri": "https://github.com/ktpss95112/Challenge2020"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "size": "5xl",
+        "aspectRatio": "27:23.8",
+        "aspectMode": "fit",
+        "url": "https://imgur.com/7LLLE9E.png",
+        "margin": "none"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "Exercise Table",
+            "weight": "bold",
+            "size": "xl"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "A statistical system to record the exercising situation of members in brother and sisters' house of hall 19.",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Github",
+              "uri": "https://github.com/Joshuaoneheart/Exercise-Table"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://imgur.com/2a0bBXd.png",
+        "size": "5xl",
+        "aspectRatio": "40:35",
+        "aspectMode": "fit",
+        "position": "relative",
+        "offsetBottom": "none",
+        "offsetEnd": "none",
+        "offsetTop": "none",
+        "offsetStart": "none"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "weight": "bold",
+            "size": "xl",
+            "text": "Mr.Bong"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "margin": "lg",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "Haha, it's me. Did not expect that? I am one of Joshua You's projects!!",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "link",
+            "height": "sm",
+            "action": {
+              "type": "uri",
+              "label": "Github",
+              "uri": "https://github.com/Joshuaoneheart/Line_interview"
+            }
+          }
+        ],
+        "flex": 0
+      }
+    }
+  ]
+}
