@@ -26,5 +26,7 @@ Werkzeug==2.0.1
 flask_caching==1.10.1
 
 ## Qrcode
-Use the qrcode below to become a friend of Mr.Bong!
+Use the qrcode below to become a friend of Mr.Bong!  
+
+
 ![Qrcode](https://user-images.githubusercontent.com/55230684/126868156-350aacf7-3182-4fc8-a0fa-f5dda515a30e.png)
