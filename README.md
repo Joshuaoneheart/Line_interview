@@ -4,7 +4,7 @@ This repository is a presentation for interview of LINE TECH FRESH in 2021, whic
 
 ## Requirements
 Python3  
-Python package described in requirement.txt.
+Pythons package described in requirement.txt.
 
 ## Qrcode
 Use the qrcode below to become a friend of Mr.Bong!  
