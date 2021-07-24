@@ -70,17 +70,49 @@ def callback():
 def handle_message(event):
     user = event.source.user_id
     g = cache.get("g")
+
     if g == None:
         g = {}
+
     if 'STATE' not in g:
         g["STATE"] = {}
+
     if 'Converse_state' not in g:
         g["Converse_state"] = {}
+
     if user not in g["STATE"]:
         g["STATE"][user] = 0
+
     message = event.message.text
     print(user, message, g["STATE"], g, flush=True)
-    if message == "What can you do?":
+
+    if message == "End Conversation" and g["STATE"][user] == 2:
+        g["STATE"][user] = 0
+        del g["Converse_state"][user]
+        line_bot_api.push_message(user, TextSendMessage(text="The conversation is ended and the bot is turned off."))
+    elif g["STATE"][user] == 2:
+        global DIALO_API_URL
+        if user not in g["Converse_state"]:
+            g["Converse_state"][user] = {"past_user_inputs": [], "generated_responses":[]}
+        g["Converse_state"][user]["text"] = message
+        data = query(g["Converse_state"][user], DIALO_API_URL) 
+        line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"]))
+        '''
+        g["Converse_state"][user]["past_user_inputs"].append(message)
+        g["Converse_state"][user]["generated_responses"].append(data["generated_text"])
+        g["Converse_state"][user]["past_user_inputs"] = g["Converse_state"][user]["past_user_inputs"][-2:]
+        g["Converse_state"][user]["generated_responses"] = g["Converse_state"][user]["generated_responses"][-2:]
+        '''
+    elif g["STATE"][user] == 1:
+        global MODEL_API_URL
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
+        g["STATE"][user] = 0
+        cache.set("g", g)
+        data = query({"inputs": message}, MODEL_API_URL)
+        print(data, flush=True)
+        line_bot_api.push_message(user, TextSendMessage(text="Here is the result of sentence completion."))
+        line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].split("\n")[0]))
+    elif message == "What can you do?":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='I am willing to introduce my best friend Joshua You aka 游一心 to you. Besides, I can do some amazing tricks and you can check them in useful tools option.'))
     elif message == "Sentence Completion":
         g["STATE"][user] = 1
@@ -141,7 +173,7 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, ret_message)
     elif message == "Who are you?":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="I\'m Mr.Bong, a self-proclaimed comedian"))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="My name is Bong, a self-proclaimed comedian. Joshua You is my best friend. I go to bed around 11 p.m. to sleep at least 8 hours every day and I drink a cup of hot milk before going to sleeping."))
     elif message == "I want to chat with your bot.":
         g["STATE"][user] = 2
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="No problem. I have turned it on. Just start your conversion and say \"End Conversation\" when you want to end this conversation with the bot."))
@@ -179,47 +211,24 @@ def handle_message(event):
         )
         line_bot_api.reply_message(event.reply_token, ret_message)
     else:
-        if message == "End Conversation" and g["STATE"][user] == 2:
-            g["STATE"][user] = 0
-            del g["Converse_state"][user]
-            line_bot_api.push_message(user, TextSendMessage(text="The conversation is ended and the bot is turned off."))
-        elif g["STATE"][user] == 2:
-            global DIALO_API_URL
-            if user not in g["Converse_state"]:
-                g["Converse_state"][user] = {"past_user_inputs": [], "generated_responses":[]}
-            g["Converse_state"][user]["text"] = message
-            data = query(g["Converse_state"][user], DIALO_API_URL) 
-            line_bot_api.push_message(user, TextSendMessage(text=data["generated_text"]))
-            '''
-            g["Converse_state"][user]["past_user_inputs"].append(message)
-            g["Converse_state"][user]["generated_responses"].append(data["generated_text"])
-            g["Converse_state"][user]["past_user_inputs"] = g["Converse_state"][user]["past_user_inputs"][-2:]
-            g["Converse_state"][user]["generated_responses"] = g["Converse_state"][user]["generated_responses"][-2:]
-            '''
-        elif g["STATE"][user] == 1:
-            global MODEL_API_URL
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Please wait for a second.'))
-            data = query({"inputs": message}, MODEL_API_URL)
-            print(data, flush=True)
-            line_bot_api.push_message(user, TextSendMessage(text="Here is the result of sentence completion."))
-            line_bot_api.push_message(user, TextSendMessage(text=data[0]["generated_text"].split("\n")[0]))
-            g["STATE"][user] = 0
-        else:
-            ret_message = TextSendMessage(
-                    text='Hello, How you doin\'?',
-                    quick_reply=QuickReply(
-                        items=[
-                            QuickReplyButton(
-                                action=MessageAction(label="Who are you?", text="Who are you?")
-                            ),
-                            QuickReplyButton(
-                                action=MessageAction(label="Joshua You", text="Tell me more about Joshua You.")
-                            ),
-                            QuickReplyButton(
-                                action=MessageAction(label="Useful Tools", text="Show me some useful tools.")
-                            )
-                        ])
-            )
-            line_bot_api.reply_message(event.reply_token, ret_message)
+        ret_message = TextSendMessage(
+                text='Hello, How you doin\'?',
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=MessageAction(label="Who are you?", text="Who are you?")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="What can you do?", text="What can you do?")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="Joshua You", text="Tell me more about Joshua You.")
+                        ),
+                        QuickReplyButton(
+                            action=MessageAction(label="Useful Tools", text="Show me some useful tools.")
+                        )
+                    ])
+        )
+        line_bot_api.reply_message(event.reply_token, ret_message)
     cache.set("g", g)
 
