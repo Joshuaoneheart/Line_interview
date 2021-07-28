@@ -1,5 +1,5 @@
-CHANNEL_SECRET='1216a119254cfef1a4788c8a9e45a791'
-CHANNEL_TOKEN='U5/HXnidh73h1ME+15sWTm2xS6YdaKZX7+rzAlVxkB58W2h7heiFgQOIXEMK0pcH7vDlHU2W/Eugm42t0OPfYNzc74ewbAk3bABLPM+Acp93N03+hhUEYA2yIwk65LWs3kWDAI3srMOxFGIm11q6XAdB04t89/1O/w1cDnyilFU='
+CHANNEL_SECRET=''
+CHANNEL_TOKEN=''
 MODEL_API_TOKEN='api_FaTThXjiOcMNrzITNPyQCjxgZhTsNEgjpB'
 DIALO_API_URL='https://api-inference.huggingface.co/models/microsoft/DialoGPT-large'
 MODEL_API_URL='https://api-inference.huggingface.co/models/gpt2-xl'
